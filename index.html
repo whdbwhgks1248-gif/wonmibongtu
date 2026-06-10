@@ -196,26 +196,6 @@
     </div>
   </section>
 
-  <!-- 신뢰 지표 -->
-  <section style="padding: 48px 24px; background: white; border-bottom: 1px solid var(--border);">
-    <div class="wrap">
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center;">
-        <div>
-          <div style="font-size: clamp(28px, 4vw, 40px); font-weight: 900; color: var(--green); letter-spacing: -0.03em;">10년+</div>
-          <div style="font-size: 13px; color: var(--sub); margin-top: 6px;">2014년 개업<br>10년 이상 운영</div>
-        </div>
-        <div>
-          <div style="font-size: clamp(28px, 4vw, 40px); font-weight: 900; color: var(--green); letter-spacing: -0.03em;">공장직영</div>
-          <div style="font-size: 13px; color: var(--sub); margin-top: 6px;">비닐 인쇄·가공<br>전문</div>
-        </div>
-        <div>
-          <div style="font-size: clamp(28px, 4vw, 40px); font-weight: 900; color: var(--green); letter-spacing: -0.03em;">다수</div>
-          <div style="font-size: 13px; color: var(--sub); margin-top: 6px;">음식점·배달전문점<br>거래처</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="pain-bg">
     <div class="wrap">
       <div class="pain-layout">
@@ -260,6 +240,29 @@
           <div style="font-size: 32px; margin-bottom: 16px;">🍱</div>
           <h3 style="font-size: 17px; font-weight: 800; color: var(--dark); margin-bottom: 10px;">업종 이해도 높음</h3>
           <p style="font-size: 14px; color: var(--sub); line-height: 1.8;">음식점, 배달전문점 등 다수 거래처와 함께해온 경험으로 업종에 맞는 포장재를 바로 추천해드립니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 제작 사례 슬라이드 (홈) -->
+  <section style="padding: 80px 24px; background: var(--bg-gray);">
+    <div class="wrap">
+      <p class="eyebrow">제작 사례</p>
+      <h2 class="sec-h2">직접 제작한<br>인쇄봉투예요</h2>
+      <div style="position: relative; margin-top: 48px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <div style="border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; background: var(--border);">
+          <img id="slideImgHome" src="https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/%EC%A0%9C%EC%9E%9801.jpg"
+               style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        <button onclick="changeSlideHome(-1)"
+                style="position: absolute; left: -20px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: white; border: 1px solid var(--border); font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">‹</button>
+        <button onclick="changeSlideHome(1)"
+                style="position: absolute; right: -20px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: white; border: 1px solid var(--border); font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">›</button>
+        <div style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;">
+          <span class="slide-dot-home" onclick="goSlideHome(0)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--green); cursor: pointer; display: inline-block;"></span>
+          <span class="slide-dot-home" onclick="goSlideHome(1)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; display: inline-block;"></span>
+          <span class="slide-dot-home" onclick="goSlideHome(2)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; display: inline-block;"></span>
         </div>
       </div>
     </div>
@@ -397,6 +400,32 @@
       </div>
     </div>
   </section>
+
+  <!-- 제작 사례 슬라이드 -->
+  <section style="padding: 80px 24px; background: var(--bg-gray);">
+    <div class="wrap">
+      <p class="eyebrow">제작 사례</p>
+      <h2 class="sec-h2">직접 제작한<br>인쇄봉투예요</h2>
+      <div style="position: relative; margin-top: 48px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <!-- 슬라이드 이미지 -->
+        <div style="border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; background: var(--border);">
+          <img id="slideImg" src="https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/%EC%A0%9C%EC%9E%9801.jpg"
+               style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        <!-- 이전/다음 버튼 -->
+        <button onclick="changeSlide(-1)"
+                style="position: absolute; left: -20px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: white; border: 1px solid var(--border); font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">‹</button>
+        <button onclick="changeSlide(1)"
+                style="position: absolute; right: -20px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: white; border: 1px solid var(--border); font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">›</button>
+        <!-- 인디케이터 -->
+        <div style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;">
+          <span class="slide-dot active-dot" onclick="goSlide(0)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--green); cursor: pointer; display: inline-block;"></span>
+          <span class="slide-dot" onclick="goSlide(1)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; display: inline-block;"></span>
+          <span class="slide-dot" onclick="goSlide(2)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; display: inline-block;"></span>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <!-- 문의하기 -->
@@ -512,6 +541,49 @@
 </footer>
 
 <script>
+  const slides = [
+    'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/%EC%A0%9C%EC%9E%9801.jpg',
+    'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/%EC%A0%9C%EC%9E%9802.jpg',
+    'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/%EC%A0%9C%EC%9E%9803.jpg'
+  ];
+  let currentSlide = 0;
+
+  function updateSlide() {
+    document.getElementById('slideImg').src = slides[currentSlide];
+    document.querySelectorAll('.slide-dot').forEach((dot, i) => {
+      dot.style.background = i === currentSlide ? 'var(--green)' : 'var(--border)';
+    });
+  }
+
+  function changeSlide(dir) {
+    currentSlide = (currentSlide + dir + slides.length) % slides.length;
+    updateSlide();
+  }
+
+  function goSlide(idx) {
+    currentSlide = idx;
+    updateSlide();
+  }
+
+  let currentSlideHome = 0;
+
+  function updateSlideHome() {
+    document.getElementById('slideImgHome').src = slides[currentSlideHome];
+    document.querySelectorAll('.slide-dot-home').forEach((dot, i) => {
+      dot.style.background = i === currentSlideHome ? 'var(--green)' : 'var(--border)';
+    });
+  }
+
+  function changeSlideHome(dir) {
+    currentSlideHome = (currentSlideHome + dir + slides.length) % slides.length;
+    updateSlideHome();
+  }
+
+  function goSlideHome(idx) {
+    currentSlideHome = idx;
+    updateSlideHome();
+  }
+
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
