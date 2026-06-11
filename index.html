@@ -620,14 +620,18 @@
       }
       grid.innerHTML = data.items.map(function(item) {
         var date = new Date(item.pubDate).toLocaleDateString('ko-KR', {year:'numeric', month:'long', day:'numeric'});
-        var img = item.thumbnail || '';
+        // description에서 img 태그 파싱해서 썸네일 추출
+        var imgMatch = item.description.match(/<img[^>]+src="([^"]+)"/);
+        var img = (item.thumbnail && item.thumbnail.length > 0) ? item.thumbnail : (imgMatch ? imgMatch[1] : '');
         var desc = item.description.replace(/<[^>]*>/g, '').substring(0, 80) + '...';
-        var imgHtml = img ? '<img src="' + img + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;">' : '<div style="width:100%;aspect-ratio:16/9;background:var(--bg-gray);"></div>';
-        return '<a href="' + item.link + '" target="_blank" style="text-decoration:none;color:inherit;display:block;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:white;">'
+        var imgHtml = img
+          ? '<img src="' + img + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;" onerror="this.parentNode.innerHTML='<div style=width:100%;aspect-ratio:16/9;background:var(--bg-gray);></div>'">'
+          : '<div style="width:100%;aspect-ratio:16/9;background:var(--bg-gray);"></div>';
+        return '<a href="' + item.link + '" target="_blank" style="text-decoration:none;color:inherit;display:block;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:white;transition:box-shadow .2s,transform .2s;" onmouseover="this.style.boxShadow='0 16px 40px rgba(0,0,0,.08)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">'
           + imgHtml
           + '<div style="padding:20px;">'
           + '<div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:8px;">' + date + '</div>'
-          + '<div style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px;line-height:1.4;">' + item.title + '</div>'
+          + '<div style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.title + '</div>'
           + '<div style="font-size:13px;color:var(--sub);line-height:1.7;">' + desc + '</div>'
           + '</div></a>';
       }).join('');
