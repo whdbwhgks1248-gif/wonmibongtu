@@ -508,7 +508,7 @@
       var html = '';
       data.items.forEach(function(item) {
         var date = new Date(item.pubDate).toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'});
-        var postId = item.link.match(/won2mi4\/([0-9]+)/);
+        var postId = item.link.match(/([0-9]{12,})/);
         var img = postId ? 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/blog/' + postId[1] + '.jpg' : 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG';
         var desc = item.description.replace(/<[^>]*>/g, '').substring(0, 80) + '...';
         var imgPart = '<img src="' + (img || fallbackImg) + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;" onerror="this.src=\'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG\'">';
