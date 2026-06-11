@@ -498,7 +498,7 @@
     if (!grid) return;
     try {
       var rssUrl = 'https://rss.blog.naver.com/won2mi4.xml';
-      var proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl) + '&count=30';
+      var proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl) + '&count=20';
       var res = await fetch(proxyUrl);
       var data = await res.json();
       if (!data.items || data.items.length === 0) {
