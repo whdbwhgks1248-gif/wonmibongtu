@@ -434,7 +434,7 @@
   <section>
     <div class="wrap">
       <p class="eyebrow">블로그 소식</p>
-      <h2 class="sec-h2">원미봉투백화점<br>소식</h2>
+      <h2 class="sec-h2">원미봉투백화점 소식</h2>
       <p class="sec-p">포장재 정보와 가게 소식을 전해드립니다</p>
       <div id="blogGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
         <div style="text-align: center; padding: 60px; color: var(--sub); font-size: 14px;">글을 불러오는 중...</div>
@@ -508,12 +508,10 @@
       var html = '';
       data.items.forEach(function(item) {
         var date = new Date(item.pubDate).toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'});
-        var imgMatch = item.description.match(/src="([^"]+pstatic[^"]+)"/);
-        var img = imgMatch ? imgMatch[1] : '';
+        var postId = item.link.match(/won2mi4\/([0-9]+)/);
+        var img = postId ? 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/blog/' + postId[1] + '.jpg' : 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG';
         var desc = item.description.replace(/<[^>]*>/g, '').substring(0, 80) + '...';
-        var imgPart = img
-          ? '<img src="' + img + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;">'
-          : '<div style="width:100%;aspect-ratio:16/9;background:var(--bg-gray);"></div>';
+        var imgPart = '<img src="' + (img || fallbackImg) + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;" onerror="this.src=\'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG\'">';
         html += '<a href="' + item.link + '" target="_blank" style="text-decoration:none;color:inherit;display:block;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:white;">'
           + imgPart
           + '<div style="padding:20px;">'
