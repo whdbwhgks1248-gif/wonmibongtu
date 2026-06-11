@@ -608,7 +608,7 @@
         var img = postId ? 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/blog/' + postId[1] + '.jpg' : 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG';
         var desc = item.description.replace(/<[^>]*>/g, '').substring(0, 80) + '...';
         html += '<a href="' + item.link + '" target="_blank" style="text-decoration:none;color:inherit;display:block;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:white;">'
-          + '<img src="' + img + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;" onerror="this.src='https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG'">'
+          + '<img src="' + img + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;" onerror="imgFallback(this)">'
           + '<div style="padding:20px;">'
           + '<div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:8px;">' + date + '</div>'
           + '<div style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.title + '</div>'
@@ -620,6 +620,8 @@
       grid.innerHTML = '<p style="text-align:center;padding:60px;color:var(--sub);">글을 불러올 수 없습니다.</p>';
     }
   }
+
+  function imgFallback(el) { el.src = 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG'; }
 
   function showPage(pageId) {
     if (pageId === 'news') loadBlog();
