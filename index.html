@@ -567,84 +567,66 @@
     'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/case03.jpg'
   ];
   let currentSlide = 0;
+  let currentSlideHome = 0;
 
   function updateSlide() {
-    document.getElementById('slideImg').src = slides[currentSlide];
-    document.querySelectorAll('.slide-dot').forEach((dot, i) => {
+    var el = document.getElementById('slideImg');
+    if (el) el.src = slides[currentSlide];
+    document.querySelectorAll('.slide-dot').forEach(function(dot, i) {
       dot.style.background = i === currentSlide ? 'var(--green)' : 'var(--border)';
     });
   }
-
-  function changeSlide(dir) {
-    currentSlide = (currentSlide + dir + slides.length) % slides.length;
-    updateSlide();
-  }
-
-  function goSlide(idx) {
-    currentSlide = idx;
-    updateSlide();
-  }
-
-  let currentSlideHome = 0;
+  function changeSlide(dir) { currentSlide = (currentSlide + dir + slides.length) % slides.length; updateSlide(); }
+  function goSlide(idx) { currentSlide = idx; updateSlide(); }
 
   function updateSlideHome() {
-    document.getElementById('slideImgHome').src = slides[currentSlideHome];
-    document.querySelectorAll('.slide-dot-home').forEach((dot, i) => {
+    var el = document.getElementById('slideImgHome');
+    if (el) el.src = slides[currentSlideHome];
+    document.querySelectorAll('.slide-dot-home').forEach(function(dot, i) {
       dot.style.background = i === currentSlideHome ? 'var(--green)' : 'var(--border)';
     });
   }
+  function changeSlideHome(dir) { currentSlideHome = (currentSlideHome + dir + slides.length) % slides.length; updateSlideHome(); }
+  function goSlideHome(idx) { currentSlideHome = idx; updateSlideHome(); }
 
-  function changeSlideHome(dir) {
-    currentSlideHome = (currentSlideHome + dir + slides.length) % slides.length;
-    updateSlideHome();
-  }
-
-  function goSlideHome(idx) {
-    currentSlideHome = idx;
-    updateSlideHome();
-  }
-
-  // 블로그 RSS 불러오기
   async function loadBlog() {
-    const grid = document.getElementById('blogGrid');
+    var grid = document.getElementById('blogGrid');
     if (!grid) return;
     try {
-      const rssUrl = 'https://rss.blog.naver.com/won2mi4.xml';
-      const proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
-      const res = await fetch(proxyUrl);
-      const data = await res.json();
+      var rssUrl = 'https://rss.blog.naver.com/won2mi4.xml';
+      var proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+      var res = await fetch(proxyUrl);
+      var data = await res.json();
       if (!data.items || data.items.length === 0) {
-        grid.innerHTML = '<div style="text-align:center;padding:60px;color:var(--sub);font-size:14px;">글을 불러올 수 없습니다.</div>';
+        grid.innerHTML = '<p style="text-align:center;padding:60px;color:var(--sub);">글을 불러올 수 없습니다.</p>';
         return;
       }
-      grid.innerHTML = data.items.map(function(item) {
-        var date = new Date(item.pubDate).toLocaleDateString('ko-KR', {year:'numeric', month:'long', day:'numeric'});
-        // description에서 img 태그 파싱해서 썸네일 추출
-        var imgMatch = item.description.match(/<img[^>]+src="([^"]+)"/);
-        var img = (item.thumbnail && item.thumbnail.length > 0) ? item.thumbnail : (imgMatch ? imgMatch[1] : '');
+      var html = '';
+      data.items.forEach(function(item) {
+        var date = new Date(item.pubDate).toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'});
+        var postId = item.link.match(/([0-9]{12,})/);
+        var img = postId ? 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/blog/' + postId[1] + '.jpg' : 'https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG';
         var desc = item.description.replace(/<[^>]*>/g, '').substring(0, 80) + '...';
-        var imgHtml = img
-          ? '<img src="' + img + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;" onerror="this.parentNode.innerHTML='<div style=width:100%;aspect-ratio:16/9;background:var(--bg-gray);></div>'">'
-          : '<div style="width:100%;aspect-ratio:16/9;background:var(--bg-gray);"></div>';
-        return '<a href="' + item.link + '" target="_blank" style="text-decoration:none;color:inherit;display:block;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:white;transition:box-shadow .2s,transform .2s;" onmouseover="this.style.boxShadow='0 16px 40px rgba(0,0,0,.08)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">'
-          + imgHtml
+        html += '<a href="' + item.link + '" target="_blank" style="text-decoration:none;color:inherit;display:block;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:white;">'
+          + '<img src="' + img + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;" onerror="this.src='https://raw.githubusercontent.com/whdbwhgks1248-gif/wonmibongtu/main/IMG_3910.JPG'">'
           + '<div style="padding:20px;">'
           + '<div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:8px;">' + date + '</div>'
-          + '<div style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.title + '</div>'
+          + '<div style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.title + '</div>'
           + '<div style="font-size:13px;color:var(--sub);line-height:1.7;">' + desc + '</div>'
           + '</div></a>';
-      }).join('');
+      });
+      grid.innerHTML = html;
     } catch(e) {
-      grid.innerHTML = '<div style="text-align:center;padding:60px;color:var(--sub);font-size:14px;">글을 불러올 수 없습니다.</div>';
+      grid.innerHTML = '<p style="text-align:center;padding:60px;color:var(--sub);">글을 불러올 수 없습니다.</p>';
     }
   }
 
   function showPage(pageId) {
     if (pageId === 'news') loadBlog();
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
     document.getElementById(pageId).classList.add('active');
-    document.querySelectorAll('nav a, .tab-item').forEach(a => a.classList.remove('active'));
-    document.querySelectorAll(`[data-page="${pageId}"]`).forEach(el => el.classList.add('active'));
+    document.querySelectorAll('nav a, .tab-item').forEach(function(a) { a.classList.remove('active'); });
+    document.querySelectorAll('[data-page="' + pageId + '"]').forEach(function(el) { el.classList.add('active'); });
     window.scrollTo(0, 0);
   }
 </script>
