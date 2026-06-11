@@ -175,6 +175,7 @@
       <a data-page="home" onclick="showPage('home')" class="active">홈</a>
       <a data-page="products" onclick="showPage('products')">취급 상품</a>
       <a data-page="print" onclick="showPage('print')">인쇄봉투</a>
+      <a data-page="news" onclick="showPage('news')">소식</a>
       <a data-page="inquiry" onclick="showPage('inquiry')">문의하기</a>
       <a data-page="location" onclick="showPage('location')">오시는 길</a>
     </nav>
@@ -428,6 +429,20 @@
   </section>
 </div>
 
+<!-- 소식 -->
+<div id="news" class="page">
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">블로그 소식</p>
+      <h2 class="sec-h2">원미봉투백화점<br>소식</h2>
+      <p class="sec-p">포장재 정보와 가게 소식을 전해드립니다</p>
+      <div id="blogGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        <div style="text-align: center; padding: 60px; color: var(--sub); font-size: 14px;">글을 불러오는 중...</div>
+      </div>
+    </div>
+  </section>
+</div>
+
 <!-- 문의하기 -->
 <div id="inquiry" class="page">
   <section>
@@ -515,6 +530,12 @@
       </svg>
       인쇄봉투
     </button>
+    <button class="tab-item" data-page="news" onclick="showPage('news')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
+      </svg>
+      소식
+    </button>
     <button class="tab-item" data-page="inquiry" onclick="showPage('inquiry')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
@@ -584,7 +605,41 @@
     updateSlideHome();
   }
 
+  // 블로그 RSS 불러오기
+  async function loadBlog() {
+    const grid = document.getElementById('blogGrid');
+    if (!grid) return;
+    try {
+      const rssUrl = 'https://rss.blog.naver.com/won2mi4.xml';
+      const proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+      const res = await fetch(proxyUrl);
+      const data = await res.json();
+      if (!data.items || data.items.length === 0) {
+        grid.innerHTML = '<div style="text-align:center;padding:60px;color:var(--sub);font-size:14px;">글을 불러올 수 없습니다.</div>';
+        return;
+      }
+      grid.innerHTML = data.items.map(item => {
+        const date = new Date(item.pubDate).toLocaleDateString('ko-KR', {year:'numeric', month:'long', day:'numeric'});
+        const img = item.thumbnail || item.enclosure?.link || '';
+        const desc = item.description.replace(/<[^>]*>/g, '').substring(0, 80) + '...';
+        return \`
+          <a href="\${item.link}" target="_blank" style="text-decoration:none; color:inherit; display:block; border:1px solid var(--border); border-radius:14px; overflow:hidden; background:white; transition:box-shadow .2s, transform .2s;" onmouseover="this.style.boxShadow='0 16px 40px rgba(0,0,0,.08)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
+            \${img ? \`<img src="\${img}" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;">\` : '<div style="width:100%;aspect-ratio:16/9;background:var(--bg-gray);"></div>'}
+            <div style="padding:20px;">
+              <div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:8px;">\${date}</div>
+              <div style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px;line-height:1.4;">\${item.title}</div>
+              <div style="font-size:13px;color:var(--sub);line-height:1.7;">\${desc}</div>
+            </div>
+          </a>
+        \`;
+      }).join('');
+    } catch(e) {
+      grid.innerHTML = '<div style="text-align:center;padding:60px;color:var(--sub);font-size:14px;">글을 불러올 수 없습니다.</div>';
+    }
+  }
+
   function showPage(pageId) {
+    if (pageId === 'news') loadBlog();
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     document.querySelectorAll('nav a, .tab-item').forEach(a => a.classList.remove('active'));
